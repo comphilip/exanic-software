@@ -230,7 +230,7 @@ static void exanic_link_timer_callback(unsigned long data)
  * Implement common functionality used by exanic_alloc_rx_dma and
  * exanic_alloc_filter_dma.
  */
-void * exanic_alloc_dma(struct exanic *exanic, int *numa_node,
+static void * exanic_alloc_dma(struct exanic *exanic, int *numa_node,
                         dma_addr_t * rx_region_dma)
 {
     struct device *dev = &exanic->pci_dev->dev;
@@ -943,7 +943,7 @@ static void inc_mac_addr(u8 addr[ETH_ALEN], int n)
     addr[5] = nic & 0xFF;
 }
 
-int exanic_get_num_ports(struct exanic *exanic)
+static int exanic_get_num_ports(struct exanic *exanic)
 {
     int port_idx;
     int port_status;
