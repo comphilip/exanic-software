@@ -1517,7 +1517,11 @@ static int exanic_netdev_set_coalesce(struct net_device *ndev,
 
 #if defined(ETHTOOL_GET_TS_INFO)
 static int exanic_netdev_get_ts_info(struct net_device *ndev,
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 12, 0)
                                      struct ethtool_ts_info *eti)
+#else
+                                     struct kernel_ethtool_ts_info *eti)
+#endif
 {
 #if defined(CONFIG_PTP_1588_CLOCK) || defined(CONFIG_PTP_1588_CLOCK_MODULE)
     struct exanic_netdev_priv *priv = netdev_priv(ndev);
@@ -1900,7 +1904,6 @@ static int exanic_netdev_poll(struct napi_struct *napi, int budget)
 #else
             napi_schedule(napi);
 #endif
-
         }
         else if (priv->rx_coalesce_timeout_ns > 0)
         {
