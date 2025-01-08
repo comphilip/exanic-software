@@ -1335,9 +1335,15 @@ static int exanic_netdev_restart_autoneg(struct net_device* ndev)
 static void exanic_netdev_get_drvinfo(struct net_device *ndev,
                                       struct ethtool_drvinfo *info)
 {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 12, 0)
     strlcpy(info->driver, DRV_NAME, sizeof(info->driver));
     strlcpy(info->version, DRV_VERSION, sizeof(info->version));
     strlcpy(info->bus_info, dev_name(ndev->dev.parent), sizeof(info->bus_info));
+#else
+    strscpy(info->driver, DRV_NAME, sizeof(info->driver));
+    strscpy(info->version, DRV_VERSION, sizeof(info->version));
+    strscpy(info->bus_info, dev_name(ndev->dev.parent), sizeof(info->bus_info));
+#endif
 }
 
 static u32 exanic_netdev_get_link(struct net_device *ndev)
@@ -1511,7 +1517,11 @@ static int exanic_netdev_set_coalesce(struct net_device *ndev,
 
 #if defined(ETHTOOL_GET_TS_INFO)
 static int exanic_netdev_get_ts_info(struct net_device *ndev,
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 12, 0)
                                      struct ethtool_ts_info *eti)
+#else
+                                     struct kernel_ethtool_ts_info *eti)
+#endif
 {
 #if defined(CONFIG_PTP_1588_CLOCK) || defined(CONFIG_PTP_1588_CLOCK_MODULE)
     struct exanic_netdev_priv *priv = netdev_priv(ndev);
@@ -1888,7 +1898,7 @@ static int exanic_netdev_poll(struct napi_struct *napi, int budget)
         if (exanic_rx_ready(rx))
         {
             /* Poll again as soon as possible */
-            napi_reschedule(napi);
+            napi_schedule(napi);
         }
         else if (priv->rx_coalesce_timeout_ns > 0)
         {
