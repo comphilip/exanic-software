@@ -287,7 +287,7 @@ int exasock_udp_bind(struct exasock_udp *udp, uint32_t local_addr,
     sa.sin_family = AF_INET;
     sa.sin_addr.s_addr = local_addr;
     sa.sin_port = *local_port;
-    err = udp->sock->ops->bind(udp->sock, (struct sockaddr *)&sa, sizeof(sa));
+    err = udp->sock->ops->bind(udp->sock, (struct sockaddr_unsized *)&sa, sizeof(sa));
     if (err)
         return err;
 
@@ -331,7 +331,7 @@ int exasock_udp_connect(struct exasock_udp *udp, uint32_t *local_addr,
     sa.sin_family = AF_INET;
     sa.sin_addr.s_addr = peer_addr;
     sa.sin_port = peer_port;
-    err = udp->sock->ops->connect(udp->sock, (struct sockaddr *)&sa,
+    err = udp->sock->ops->connect(udp->sock, (struct sockaddr_unsized *)&sa,
             sizeof(sa), 0);
     if (err)
         return err;

@@ -455,7 +455,7 @@ exabond_sysfs_init(struct exabond_info *e)
 #endif
 
 #if __HAS_NETDEV_CLASS_CREATE_FILE_NS
-    ret = netdev_class_create_file_ns(&class_attr_exabond_masters, &init_net);
+    ret = netdev_class_create_file_ns(&class_attr_exabond_masters, to_ns_common(&init_net));
 #else
     ret = netdev_class_create_file(&class_attr_exabond_masters);
 #endif
@@ -474,7 +474,7 @@ int
 exabond_sysfs_destroy(struct exabond_info *e)
 {
 #if __HAS_NETDEV_CLASS_CREATE_FILE_NS
-    netdev_class_remove_file_ns(&class_attr_exabond_masters, &init_net);
+    netdev_class_remove_file_ns(&class_attr_exabond_masters, to_ns_common(&init_net));
 #else
     netdev_class_remove_file(&class_attr_exabond_masters);
 #endif

@@ -1387,7 +1387,7 @@ int exasock_tcp_bind(struct exasock_tcp *tcp, uint32_t local_addr,
     sa.sin_family = AF_INET;
     sa.sin_addr.s_addr = local_addr;
     sa.sin_port = *local_port;
-    err = tcp->sock->ops->bind(tcp->sock, (struct sockaddr *)&sa, sizeof(sa));
+    err = tcp->sock->ops->bind(tcp->sock, (struct sockaddr_unsized *)&sa, sizeof(sa));
     if (err)
         return err;
 
