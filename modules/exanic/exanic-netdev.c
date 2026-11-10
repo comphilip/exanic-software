@@ -1193,7 +1193,7 @@ static int exanic_ioctl_get_ifinfo(struct net_device *ndev, struct ifreq *ifr,
     /* Provide device name and port number to user */
     struct exaioc_ifinfo info;
     memset(&info, 0, sizeof(info));
-    strncpy(info.dev_name, exanic->name, sizeof(info.dev_name) - 1);
+    strscpy(info.dev_name, exanic->name, sizeof(info.dev_name) - 1);
     info.port_num = priv->port;
     if (copy_to_user(ifr->ifr_data, &info, sizeof(info)))
         return -EFAULT;

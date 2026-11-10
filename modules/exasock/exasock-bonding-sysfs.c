@@ -270,7 +270,7 @@ exabond_sysfs_devattr_slaves_store(struct device *d,
         return -ENODEV;
     }
 
-    strncpy(ifr.ifr_slave, iface_name, sizeof(ifr.ifr_slave));
+    strscpy(ifr.ifr_slave, iface_name, sizeof(ifr.ifr_slave));
 
     if (command == '+')
     {

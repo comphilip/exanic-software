@@ -149,7 +149,7 @@ exabond_bond_all_children_are_exanics(struct bonding *bond_master,
         if (!exasock_is_exanic_dev(cur_slave->dev))
         {
             ret = false;
-            strncpy(first_non_exanic_iface_name,
+            strscpy(first_non_exanic_iface_name,
                     netdev_name(cur_slave->dev), IFNAMSIZ);
             break;
         }

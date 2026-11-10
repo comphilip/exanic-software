@@ -2005,7 +2005,7 @@ void register_event(bool rx, struct exasock_tcp *tcp, int state,
     else
         fptr += 1;
 
-    strncpy(ev_ptr->fname, fptr, sizeof(ev_ptr->fname) - 1);
+    strscpy(ev_ptr->fname, fptr, sizeof(ev_ptr->fname) - 1);
     ev_ptr->fname[sizeof(ev_ptr->fname) - 1] = '\0';
 
     ktime_get_real_ts64(&ts64);
